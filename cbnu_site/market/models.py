@@ -11,9 +11,11 @@ class Base(models.Model):
     number = models.CharField(max_length=20)
     soldout = models.BooleanField(default=False)
 
-def get_image_filename(instance, filename):
-    id = instance.post.id
-    return "post_images/%s" % (id) 
+def get_image_filename(instance, filename, model):
+    title = instance.model.title
+    id = instance.model.id
+    slug = slugify(title)
+    return "%s_images/%s-%s" % (model, slug, filename)  
 
 class Images(models.Model):
     image = models.ImageField(upload_to=get_image_filename, verbose_name='Image') 
